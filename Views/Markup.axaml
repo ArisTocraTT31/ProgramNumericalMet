@@ -1,0 +1,40 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:vm="using:ProgramNumericalMet.ViewModels"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 x:Class="ProgramNumericalMet.Views.Markup"
+			 x:DataType="vm:MainWindowViewModel">
+
+	<Grid RowDefinitions="20,50,*" ColumnDefinitions="350,*">
+		<StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left">
+			<StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+				<TextBlock Text="Выбор задания:" Padding="10" FontSize="20"/>
+				<Button Content="Назад" Command="{Binding MainScreenVM.ExitChoice}"/>
+			</StackPanel>
+			
+			<!--<ComboBox ItemsSource="{Binding MainScreenVM.ListZadania}"
+			SelectedItem="{Binding MainScreenVM.SelectedChoice}"
+			HorizontalAlignment="Left"
+			SelectedIndex="0">
+			<ComboBox.ItemTemplate>
+			<DataTemplate>
+			<TextBlock Text="{Binding Title}" MinWidth="300"/>
+			</DataTemplate>
+			</ComboBox.ItemTemplate>
+			</ComboBox>-->
+			<ListBox
+			ItemsSource="{Binding MainScreenVM.ListZadania}"
+			SelectedItem="{Binding MainScreenVM.SelectedChoice}"
+			Background="#FFF">
+				<ListBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding Title}" TextWrapping="Wrap" Padding="10"/>
+					</DataTemplate>
+				</ListBox.ItemTemplate>
+			</ListBox>
+		</StackPanel>
+		<ContentControl Content="{Binding Page}" Grid.Row="2" Grid.Column="1"/>
+	</Grid>
+</UserControl>
