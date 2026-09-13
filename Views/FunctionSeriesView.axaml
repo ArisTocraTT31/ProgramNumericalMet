@@ -1,10 +1,40 @@
 <UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:vm="using:ProgramNumericalMet.ViewModels"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="ProgramNumericalMet.Views.FunctionSeriesView"
-             x:DataType="vm:MainWindowViewModel">
-  Welcome to Avalonia!
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:vm="using:ProgramNumericalMet.ViewModels"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 x:CompileBindings="False"
+			 x:Class="ProgramNumericalMet.Views.FunctionSeriesView"
+			 x:DataType="vm:FunctionSeriesViewModel">
+	<Grid ColumnDefinitions="300,*">
+		<StackPanel Grid.Column="0" Margin="20">
+			<TextBlock Text="Ввод данных"/>
+			<StackPanel Orientation="Horizontal">
+				<TextBlock Text="Введите n:"/>
+				<TextBox Watermark="введите число" Text="{Binding MaxN}"/>
+			</StackPanel>
+			<StackPanel Orientation="Horizontal">
+				<TextBlock Text="Введите шаг:"/>
+				<TextBox Watermark="введите число" Text="{Binding Step}"/>
+			</StackPanel>
+			<Button Content="Решить" Command="{Binding ButtonAction}"/>
+		</StackPanel>
+		<StackPanel Grid.Column="1" Margin="20">
+			<DataGrid  Name="MyDataGrid" 
+				ItemsSource="{Binding TableSum}"
+				AutoGenerateColumns="False"
+				IsReadOnly="True"
+				GridLinesVisibility="All"
+				BorderBrush="Green"
+				BorderThickness="2"
+				Height="600">
+				<DataGrid.Columns>
+					<DataGridTextColumn Header="№" Binding="{Binding Id}" Width="70"/>
+					<DataGridTextColumn Header="Значения X" Binding="{Binding X}" Width="150"/>
+					<DataGridTextColumn Header="Сумма" Binding="{Binding Sum}" Width="*"/>
+				</DataGrid.Columns>
+			</DataGrid>
+		</StackPanel>
+	</Grid>
 </UserControl>
