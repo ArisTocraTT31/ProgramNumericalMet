@@ -45,7 +45,7 @@ namespace ProgramNumericalMet.ViewModels
             int n = (int)Math.Round((((a + b) - (a - b)) / Step) + 1);
             for (int i = 0; i < n; i++)
             {
-                double x = Math.Round(((a - b) + Step * i), 2, MidpointRounding.AwayFromZero);
+                double x = Math.Round(((a - b) + Step * i), 6, MidpointRounding.AwayFromZero);
                 double sum = 0;    
                 double tern = 0;
                 double multiplier = (x * x) / 2.0;
@@ -66,10 +66,15 @@ namespace ProgramNumericalMet.ViewModels
                 {
                     Id = i+1,
                     X = x,
-                    Sum = Math.Round(sum,6)
+                    Sum = Math.Round(sum,10)
                 });
             }
             TableSum = TempSum;
+        }
+        public void InFourierSeries()
+        {
+            MainWindowViewModel.Self.FourierSeriesVM = new FourierSeriesViewModel();
+            MainWindowViewModel.Self.Page = new FourierSeriesView();
         }
     }
 }

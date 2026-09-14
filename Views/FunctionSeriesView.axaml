@@ -7,28 +7,54 @@
 			 x:CompileBindings="False"
 			 x:Class="ProgramNumericalMet.Views.FunctionSeriesView"
 			 x:DataType="vm:FunctionSeriesViewModel">
-	<Grid ColumnDefinitions="300,*">
-		<StackPanel Grid.Column="0" Margin="20">
-			<TextBlock Text="Ввод данных"/>
-			<StackPanel Orientation="Horizontal">
-				<TextBlock Text="Введите n:"/>
-				<TextBox Watermark="введите число" Text="{Binding MaxN}"/>
-			</StackPanel>
-			<StackPanel Orientation="Horizontal">
-				<TextBlock Text="Введите шаг:"/>
-				<TextBox Watermark="введите число" Text="{Binding Step}"/>
-			</StackPanel>
+	<Grid ColumnDefinitions="300,*" RowDefinitions="50, *">
+		<StackPanel HorizontalAlignment="Center" Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal">
+			<RadioButton Content="Ряд Тейлора" Padding="10" IsChecked="true"  IsEnabled="True"/>
+			<RadioButton Content="Ряд Фурье" Padding="10" Command="{Binding InFourierSeries}" IsEnabled="True"/>
+		</StackPanel>
+		<StackPanel Grid.Column="0" Grid.Row="1" Margin="20">
+			<TextBlock Text="Ввод данных" FontWeight="Bold" FontSize="18" Margin="0 0 0 10"/>
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition Width="*"/>
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
+				</Grid.RowDefinitions>
+
+				<TextBlock Grid.Row="0" Grid.Column="0"
+						   Text="Введите n:"
+						   VerticalAlignment="Center"
+						   Margin="0,0,15,10"/>
+				<TextBox Grid.Row="0" Grid.Column="1"
+				Watermark="Введите шаг"  MinWidth="120"
+						 HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,10"
+						 Text="{Binding MaxN, UpdateSourceTrigger=PropertyChanged, TargetNullValue='', FallbackValue='0'}"/>
+			
+				<TextBlock Grid.Row="1" Grid.Column="0"
+						   Text="Введите шаг:"
+						   VerticalAlignment="Center"
+						   Margin="0,0,15,15"/>
+				<TextBox Grid.Row="1" Grid.Column="1"
+				Watermark="Введите шаг" MinWidth="120"
+						 HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,15"
+						 Text="{Binding Step, UpdateSourceTrigger=PropertyChanged, TargetNullValue='', FallbackValue='0'}"/>
+			</Grid>
 			<Button Content="Решить" Command="{Binding ButtonAction}"/>
 		</StackPanel>
-		<StackPanel Grid.Column="1" Margin="20">
-			<DataGrid  Name="MyDataGrid" 
-				ItemsSource="{Binding TableSum}"
-				AutoGenerateColumns="False"
-				IsReadOnly="True"
-				GridLinesVisibility="All"
-				BorderBrush="Green"
-				BorderThickness="2"
-				Height="600">
+		<StackPanel Grid.Column="1" Grid.Row="1"  Margin="20">
+			<DataGrid  Name="MyDataGrid"
+					   ItemsSource="{Binding TableSum}"
+					   AutoGenerateColumns="False"
+					   IsReadOnly="True"
+					   HorizontalAlignment="Left"
+					   GridLinesVisibility="All"
+					   BorderBrush="Green"
+					   BorderThickness="2"
+					   Height="600"
+					   Width="450">
 				<DataGrid.Columns>
 					<DataGridTextColumn Header="№" Binding="{Binding Id}" Width="70"/>
 					<DataGridTextColumn Header="Значения X" Binding="{Binding X}" Width="150"/>
