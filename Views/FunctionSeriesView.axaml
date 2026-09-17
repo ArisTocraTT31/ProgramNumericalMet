@@ -4,6 +4,7 @@
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Avalonia;assembly=LiveChartsCore.SkiaSharpView.Avalonia"
 			 x:CompileBindings="False"
 			 x:Class="ProgramNumericalMet.Views.FunctionSeriesView"
 			 x:DataType="vm:FunctionSeriesViewModel">
@@ -44,7 +45,10 @@
 			</Grid>
 			<Button Content="Решить" Command="{Binding ButtonAction}"/>
 		</StackPanel>
-		<StackPanel Grid.Column="1" Grid.Row="1"  Margin="20">
+		<Grid Grid.Column="1" Grid.Row="1" Margin="20">
+			<lvc:CartesianChart Series="{Binding MySeries}" />
+		</Grid>
+		<!--<StackPanel Grid.Column="1" Grid.Row="1"  Margin="20">
 			<DataGrid  Name="MyDataGrid"
 					   ItemsSource="{Binding TableSum}"
 					   AutoGenerateColumns="False"
@@ -54,13 +58,14 @@
 					   BorderBrush="Green"
 					   BorderThickness="2"
 					   Height="600"
-					   Width="450">
+					   Width="500">
 				<DataGrid.Columns>
 					<DataGridTextColumn Header="№" Binding="{Binding Id}" Width="70"/>
-					<DataGridTextColumn Header="Значения X" Binding="{Binding X}" Width="150"/>
+					<DataGridTextColumn Header="Значения X" Binding="{Binding X}" Width="120"/>
+					<DataGridTextColumn Header="Значения Y" Binding="{Binding Y}" Width="120"/>
 					<DataGridTextColumn Header="Сумма" Binding="{Binding Sum}" Width="*"/>
 				</DataGrid.Columns>
 			</DataGrid>
-		</StackPanel>
+		</StackPanel>-->
 	</Grid>
 </UserControl>

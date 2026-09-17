@@ -9,6 +9,8 @@ namespace ProgramNumericalMet.ViewModels
 {
     public class FourierSeriesViewModel : ViewModelBase
     {
+
+
         public void InFunctionSeries()
         {
             MainWindowViewModel.Self.FunctionSeriesVM = new FunctionSeriesViewModel();
