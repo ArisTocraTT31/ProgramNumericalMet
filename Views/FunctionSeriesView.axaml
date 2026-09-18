@@ -8,7 +8,7 @@
 			 x:CompileBindings="False"
 			 x:Class="ProgramNumericalMet.Views.FunctionSeriesView"
 			 x:DataType="vm:FunctionSeriesViewModel">
-	<Grid ColumnDefinitions="300,*" RowDefinitions="50, *">
+	<Grid ColumnDefinitions="600,*" RowDefinitions="50,150, *">
 		<StackPanel HorizontalAlignment="Center" Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal">
 			<RadioButton Content="Ряд Тейлора" Padding="10" IsChecked="true"  IsEnabled="True"/>
 			<RadioButton Content="Ряд Фурье" Padding="10" Command="{Binding InFourierSeries}" IsEnabled="True"/>
@@ -45,10 +45,7 @@
 			</Grid>
 			<Button Content="Решить" Command="{Binding ButtonAction}"/>
 		</StackPanel>
-		<Grid Grid.Column="1" Grid.Row="1" Margin="20">
-			<lvc:CartesianChart Series="{Binding MySeries}" />
-		</Grid>
-		<!--<StackPanel Grid.Column="1" Grid.Row="1"  Margin="20">
+		<StackPanel Grid.Column="0" Grid.Row="2"  Margin="20">
 			<DataGrid  Name="MyDataGrid"
 					   ItemsSource="{Binding TableSum}"
 					   AutoGenerateColumns="False"
@@ -57,8 +54,7 @@
 					   GridLinesVisibility="All"
 					   BorderBrush="Green"
 					   BorderThickness="2"
-					   Height="600"
-					   Width="500">
+					   Height="400">
 				<DataGrid.Columns>
 					<DataGridTextColumn Header="№" Binding="{Binding Id}" Width="70"/>
 					<DataGridTextColumn Header="Значения X" Binding="{Binding X}" Width="120"/>
@@ -66,6 +62,11 @@
 					<DataGridTextColumn Header="Сумма" Binding="{Binding Sum}" Width="*"/>
 				</DataGrid.Columns>
 			</DataGrid>
-		</StackPanel>-->
+		</StackPanel>
+		<Grid Grid.Column="1" Grid.RowSpan="3" Margin="20">
+			<lvc:CartesianChart Series="{Binding MySeries}" MaxHeight ="500"
+								 XAxes="{Binding XAxes}"/>
+		</Grid>
+		
 	</Grid>
 </UserControl>

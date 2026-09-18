@@ -12,17 +12,22 @@ using LiveChartsCore;
 using System.Collections.ObjectModel;
 using LiveChartsCore.Defaults;
 using LiveChartsCore.SkiaSharpView;
+using Avalonia.Media;
+using LiveChartsCore.SkiaSharpView.Painting;
+using SkiaSharp;
 
 namespace ProgramNumericalMet.ViewModels
 {
     public class FunctionSeriesViewModel : ViewModelBase
     {
 
-        int _a = 0; 
+        int _a = 0;
         double _b = 1.4;
         double step; //Шаг
         int maxN; //Кол-во n для суммы
         List<FSValue> tableSum; //Лист значений 
+
+        private ObservableCollection<ObservablePoint> staticPoints;
 
         public int a { get => _a; set => _a = value; }
         public double b { get => _b; set => _b = value; }
@@ -31,31 +36,41 @@ namespace ProgramNumericalMet.ViewModels
         public List<FSValue> TableSum { get => tableSum; set => this.RaiseAndSetIfChanged(ref tableSum, value); }
 
 
+        public Axis[] XAxes { get; set; }
         public ISeries[] mySeries;
         public ISeries[] MySeries { get => mySeries; set => this.RaiseAndSetIfChanged(ref mySeries, value); }
+
         public FunctionSeriesViewModel()
         {
             MySeries = Array.Empty<ISeries>();
-            //if(Step != 0)
-            //{
-            //    var points = new ObservableCollection<ObservablePoint>();
-            //for (double x = (a - b); x <= (a + b); x += Step)
-            //{
-            //    double y = x / ((x * x) - 2);
-            //    points.Add(new ObservablePoint(x, y));
-            //}
-
-            //MySeries = new ISeries[]
-            //{
-            //    new LineSeries<ObservablePoint>
-            //    {
-            //        Values = points,
-            //        Name = "Функция ряда тейлора",
-            //        GeometrySize = 0,
-            //        Fill = null
-            //    }
-            //};
-            //}
+            staticPoints = new ObservableCollection<ObservablePoint>();
+            double minX = a - b; //Минимальное значение на отрезке
+            double maxX = a + b; //Максимальное значение на отрезке
+            XAxes = new Axis[]
+            {
+                new Axis
+                {
+                    MinLimit = -1.4,
+                    MaxLimit = 1.4,
+                }
+            };
+            for (double x = minX; x <= 10; x += 0.01)
+            {
+                if (Math.Abs((x * x) - 2) < 0.0001) continue;
+                double y = x / ((x * x) - 2);
+                staticPoints.Add(new ObservablePoint(x, y));
+            }
+            MySeries = new ISeries[]
+            {
+                new LineSeries<ObservablePoint>
+                {
+                    Values = staticPoints,
+                    Name = "f(x)",
+                    GeometrySize = 0,
+                    Fill = null,
+                    Stroke = new SolidColorPaint(SKColors.Green,2)
+                }
+            };
         }
 
         //-x^(2n+1)
@@ -65,7 +80,7 @@ namespace ProgramNumericalMet.ViewModels
         public void ButtonAction() //Метод, который активируется по кнопке, он делает рассчеты суммы для каждого элемента с точностью n и с конкретным шагом на заданном отрезке
         {
             if (Step <= 0) return;
-            List<FSValue> TempSum = new List<FSValue>(); //
+            List<FSValue> TempSum = new List<FSValue>(); //Временный лист данных
             double minX = a - b; //Минимальное значение на отрезке
             double maxX = a + b; //Максимальное значение на отрезке
             double[] criticalPoints = { 0, minX, maxX }; //Массив критических точек (которые обязательно должны быть в итоговых расчетах)
@@ -103,31 +118,36 @@ namespace ProgramNumericalMet.ViewModels
                     });
                 }
             }
-            TempSum.Sort((item1,item2) => item1.X.CompareTo(item2.X)); //Соритировка по числам (х) по возрастанию
+            TempSum.Sort((item1, item2) => item1.X.CompareTo(item2.X)); //Соритировка по числам (х) по возрастанию
             for (int i = 0; i < TempSum.Count; i++) //Восстановление индексов
             {
                 TempSum[i].Id = i + 1;
             }
             TableSum = TempSum;
 
-            var points = new ObservableCollection<ObservablePoint>();
-            foreach(var item in TableSum)
+            var dynamicPoints = new ObservableCollection<ObservablePoint>();
+            foreach (var item in TableSum)
             {
                 // Защита от точек разрыва функции (ОДЗ: x^2 != 2), чтобы график не улетал в бесконечность
-                if (double.IsInfinity(item.Y) || double.IsNaN(item.Y) || Math.Abs((item.X * item.X) - 2) < 0.0001)
-                {
-                    continue;
-                }
-                points.Add(new ObservablePoint(item.X, item.Y));
+                if (double.IsInfinity(item.Y) || double.IsNaN(item.Y) || Math.Abs((item.X * item.X) - 2) < 0.0001) continue;
+                dynamicPoints.Add(new ObservablePoint(item.X, item.Y));
             }
             MySeries = new ISeries[]
             {
                 new LineSeries<ObservablePoint>
                 {
-                    Values = points,
-                    Name = "Функция ряда Тейлора",
+                    Values = staticPoints,
+                    Name = "Эталонная f(x)",
+                    GeometrySize = 0,
+                    Fill = null,
+                    Stroke = new SolidColorPaint(SKColors.Gray, 2) // Серая линия
+                },
+                new LineSeries<ObservablePoint>
+                {
+                    Values = dynamicPoints,
+                    Name = "Значение f(x)",
                     GeometrySize = 0, // Убираем маркеры точек, оставляем гладкую линию
-                    Fill = null       // Отключаем заливку под графиком
+                    Fill = null       // Отключаем заливку под графиком   //КОУЖ 
                 }
             };
         }
@@ -151,10 +171,10 @@ namespace ProgramNumericalMet.ViewModels
                     else
                     {
                         //(каждый последующий член) * (x^2/2)
-                        tern = tern * multiplier;  
+                        tern = tern * multiplier;
                         sum = sum + tern; //Суммируются все элементы ряда
                     }
-                    y = x / ((x * x) - 2);
+                    y = x / ((x * x) - 2); //Вычисление у по изначальной функции
                 }
                 values.Add(new FSValue //Добавление элемента в лист
                 {
@@ -164,24 +184,29 @@ namespace ProgramNumericalMet.ViewModels
                     Sum = Math.Round(sum, 10)
                 });
             }
-            var points = new ObservableCollection<ObservablePoint>();
+            var dynamicPoints = new ObservableCollection<ObservablePoint>();
             foreach (var item in values)
             {
                 // Защита от точек разрыва функции (ОДЗ: x^2 != 2), чтобы график не улетал в бесконечность
-                if (double.IsInfinity(item.Y) || double.IsNaN(item.Y) || Math.Abs((item.X * item.X) - 2) < 0.0001)
-                {
-                    continue;
-                }
-                points.Add(new ObservablePoint(item.X, item.Y));
+                if (double.IsInfinity(item.Y) || double.IsNaN(item.Y) || Math.Abs((item.X * item.X) - 2) < 0.0001) continue;
+                dynamicPoints.Add(new ObservablePoint(item.X, item.Y));
             }
             MySeries = new ISeries[]
             {
                 new LineSeries<ObservablePoint>
                 {
-                    Values = points,
-                    Name = "Функция ряда Тейлора",
+                    Values = staticPoints,
+                    Name = "Эталонная f(x)",
+                    GeometrySize = 0,
+                    Fill = null,
+                    Stroke = new SolidColorPaint(SKColors.Gray, 2) // Серая линия
+                },
+                new LineSeries<ObservablePoint>
+                {
+                    Values = dynamicPoints,
+                    Name = "Значение f(x)",
                     GeometrySize = 0, // Убираем маркеры точек, оставляем гладкую линию
-                    Fill = null       // Отключаем заливку под графиком
+                    Fill = null       // Отключаем заливку под графиком   //КОУЖ 
                 }
             };
             return values;
