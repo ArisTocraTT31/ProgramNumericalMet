@@ -23,7 +23,7 @@ namespace ProgramNumericalMet.ViewModels
 
         int _a = 0;
         double _b = 1.4;
-        double step; //Шаг
+        int step; //Шаг
         int maxN; //Кол-во n для суммы
         List<FSValue> tableSum; //Лист значений 
 
@@ -31,7 +31,7 @@ namespace ProgramNumericalMet.ViewModels
 
         public int a { get => _a; set => _a = value; }
         public double b { get => _b; set => _b = value; }
-        public double Step { get => step; set => this.RaiseAndSetIfChanged(ref step, value); }
+        public int Step { get => step; set => this.RaiseAndSetIfChanged(ref step, value); }
         public int MaxN { get => maxN; set => this.RaiseAndSetIfChanged(ref maxN, value); }
         public List<FSValue> TableSum { get => tableSum; set => this.RaiseAndSetIfChanged(ref tableSum, value); }
 
@@ -79,13 +79,44 @@ namespace ProgramNumericalMet.ViewModels
 
         public void ButtonAction() //Метод, который активируется по кнопке, он делает рассчеты суммы для каждого элемента с точностью n и с конкретным шагом на заданном отрезке
         {
-            if (Step <= 0) return;
+            if (Step <= 0 || MaxN < 0) return;
             List<FSValue> TempSum = new List<FSValue>(); //Временный лист данных
             double minX = a - b; //Минимальное значение на отрезке
             double maxX = a + b; //Максимальное значение на отрезке
             double[] criticalPoints = { 0, minX, maxX }; //Массив критических точек (которые обязательно должны быть в итоговых расчетах)
-            int n = (int)Math.Round(((maxX - minX) / Step) + 1); //Узнаем кол-во элементов от заданного шага
-            TempSum = ForFSValue(TempSum, n); //Переход к методу для расчетов
+            /*int n = (int)Math.Round(((maxX - minX) / Step) + 1);*/ //Узнаем кол-во элементов от заданного шага
+            double n = Math.Round((maxX - minX) / Step,6);
+            for (double x = minX; x < maxX; x = Math.Round((x+n),6))
+            {
+                /*double x = Math.Round(((a - b) + Step * i), 6, MidpointRounding.AwayFromZero);*/ //Расчет х, начиная с минимума, идя по шагу до максимума
+                if (x > (a + b) || x < (a - b)) break; //Прекращение работы цикла, если х будет выходить за рамки отрезка
+                double y = 0;
+                double sum = 0;
+                double tern = 0;
+                double multiplier = (x * x) / 2.0;
+                for (int j = 0; j <= MaxN; j++) //Цикл для вычисление суммы ряда для х за введенное кол-во n
+                {
+                    if (j == 0) //Первый элемент ряда
+                    {
+                        tern = -x / 2.0;
+                        sum = tern;
+                    }
+                    else
+                    {
+                        //(каждый последующий член) * (x^2/2)
+                        tern = tern * multiplier;
+                        sum = sum + tern; //Суммируются все элементы ряда
+                    }
+                    y = x / ((x * x) - 2); //Вычисление у по изначальной функции
+                }
+                TempSum.Add(new FSValue //Добавление элемента в лист
+                {
+                    Id = 1 + 1,
+                    X = x,
+                    Y = Math.Round(y, 6),
+                    Sum = Math.Round(sum, 10)
+                });
+            }
             foreach (var point in criticalPoints) //Цикл проверки
             {
                 if (TempSum.Find(x => x.X == point) == null) //Если в листе нет критических точек, то они будут добавляться и рассчитываться отдельно
@@ -147,69 +178,9 @@ namespace ProgramNumericalMet.ViewModels
                     Values = dynamicPoints,
                     Name = "Значение f(x)",
                     GeometrySize = 0, // Убираем маркеры точек, оставляем гладкую линию
-                    Fill = null       // Отключаем заливку под графиком   //КОУЖ 
+                    Fill = null // Отключаем заливку под графиком 
                 }
             };
-        }
-        public List<FSValue> ForFSValue(List<FSValue> values, int n) //Метод рассчета суммы ряда для каждого х
-        {
-            for (int i = 0; i < n; i++)
-            {
-                double x = Math.Round(((a - b) + Step * i), 6, MidpointRounding.AwayFromZero); //Расчет х, начиная с минимума, идя по шагу до максимума
-                if (x > (a + b) || x < (a - b)) break; //Прекращение работы цикла, если х будет выходить за рамки отрезка
-                double y = 0;
-                double sum = 0;
-                double tern = 0;
-                double multiplier = (x * x) / 2.0;
-                for (int j = 0; j <= MaxN; j++) //Цикл для вычисление суммы ряда для х за введенное кол-во n
-                {
-                    if (j == 0) //Первый элемент ряда
-                    {
-                        tern = -x / 2.0;
-                        sum = tern;
-                    }
-                    else
-                    {
-                        //(каждый последующий член) * (x^2/2)
-                        tern = tern * multiplier;
-                        sum = sum + tern; //Суммируются все элементы ряда
-                    }
-                    y = x / ((x * x) - 2); //Вычисление у по изначальной функции
-                }
-                values.Add(new FSValue //Добавление элемента в лист
-                {
-                    Id = i + 1,
-                    X = x,
-                    Y = Math.Round(y, 6),
-                    Sum = Math.Round(sum, 10)
-                });
-            }
-            var dynamicPoints = new ObservableCollection<ObservablePoint>();
-            foreach (var item in values)
-            {
-                // Защита от точек разрыва функции (ОДЗ: x^2 != 2), чтобы график не улетал в бесконечность
-                if (double.IsInfinity(item.Y) || double.IsNaN(item.Y) || Math.Abs((item.X * item.X) - 2) < 0.0001) continue;
-                dynamicPoints.Add(new ObservablePoint(item.X, item.Y));
-            }
-            MySeries = new ISeries[]
-            {
-                new LineSeries<ObservablePoint>
-                {
-                    Values = staticPoints,
-                    Name = "Эталонная f(x)",
-                    GeometrySize = 0,
-                    Fill = null,
-                    Stroke = new SolidColorPaint(SKColors.Gray, 2) // Серая линия
-                },
-                new LineSeries<ObservablePoint>
-                {
-                    Values = dynamicPoints,
-                    Name = "Значение f(x)",
-                    GeometrySize = 0, // Убираем маркеры точек, оставляем гладкую линию
-                    Fill = null       // Отключаем заливку под графиком   //КОУЖ 
-                }
-            };
-            return values;
         }
         public void InFourierSeries()
         {

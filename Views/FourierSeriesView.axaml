@@ -4,13 +4,69 @@
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 			 xmlns:local="using:ProgramNumericalMet"
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Avalonia;assembly=LiveChartsCore.SkiaSharpView.Avalonia"
+			 x:CompileBindings="False"
 			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 			 x:Class="ProgramNumericalMet.Views.FourierSeriesView"
 			 x:DataType="vm:FourierSeriesViewModel">
-	<Grid ColumnDefinitions="300,*" RowDefinitions="50, *">
+	<Grid ColumnDefinitions="600,*" RowDefinitions="50,150, *">
 		<StackPanel HorizontalAlignment="Center" Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal">
 			<RadioButton Content="Ряд Тейлора" Padding="10"  Command="{Binding InFunctionSeries}" IsEnabled="True"/>
 			<RadioButton Content="Ряд Фурье" Padding="10" IsChecked="true" IsEnabled="True"/>
 		</StackPanel>
+		<StackPanel Grid.Column="0" Grid.Row="1" Margin="20">
+			<TextBlock Text="Ввод данных" FontWeight="Bold" FontSize="18" Margin="0 0 0 10"/>
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition Width="*"/>
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
+				</Grid.RowDefinitions>
+
+				<TextBlock Grid.Row="0" Grid.Column="0"
+						   Text="Введите n:"
+						   VerticalAlignment="Center"
+						   Margin="0,0,15,10"/>
+				<TextBox Grid.Row="0" Grid.Column="1"
+				Watermark="Введите шаг"  MinWidth="120"
+						 HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,10"
+						 Text="{Binding , UpdateSourceTrigger=PropertyChanged, TargetNullValue='', FallbackValue='0'}"/>
+			
+				<TextBlock Grid.Row="1" Grid.Column="0"
+						   Text="Введите шаг:"
+						   VerticalAlignment="Center"
+						   Margin="0,0,15,15"/>
+				<TextBox Grid.Row="1" Grid.Column="1"
+				Watermark="Введите шаг" MinWidth="120"
+						 HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,15"
+						 Text="{Binding , UpdateSourceTrigger=PropertyChanged, TargetNullValue='', FallbackValue='0'}"/>
+			</Grid>
+			<Button Content="Решить" Command="{Binding }"/>
+		</StackPanel>
+		<StackPanel Grid.Column="0" Grid.Row="2"  Margin="20">
+			<DataGrid  Name="MyDataGrid"
+					   ItemsSource="{Binding }"
+					   AutoGenerateColumns="False"
+					   IsReadOnly="True"
+					   HorizontalAlignment="Left"
+					   GridLinesVisibility="All"
+					   BorderBrush="Green"
+					   BorderThickness="2"
+					   Height="400">
+				<DataGrid.Columns>
+					<DataGridTextColumn Header="№" Binding="{Binding }" Width="70"/>
+					<DataGridTextColumn Header="Значения X" Binding="{Binding }" Width="120"/>
+					<DataGridTextColumn Header="Значения Y" Binding="{Binding }" Width="120"/>
+					<DataGridTextColumn Header="Сумма" Binding="{Binding }" Width="*"/>
+				</DataGrid.Columns>
+			</DataGrid>
+		</StackPanel>
+		<Grid Grid.Column="1" Grid.RowSpan="3" Margin="20">
+			<lvc:CartesianChart Series="{Binding }" MaxHeight ="500"
+								 XAxes="{Binding }"/>
+		</Grid>
 	</Grid>
 </UserControl>
