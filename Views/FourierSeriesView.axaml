@@ -31,9 +31,9 @@
 						   VerticalAlignment="Center"
 						   Margin="0,0,15,10"/>
 				<TextBox Grid.Row="0" Grid.Column="1"
-				Watermark="Введите шаг"  MinWidth="120"
+				Watermark="Введите n"  MinWidth="120"
 						 HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,10"
-						 Text="{Binding , UpdateSourceTrigger=PropertyChanged, TargetNullValue='', FallbackValue='0'}"/>
+						 Text="{Binding MaxN, UpdateSourceTrigger=PropertyChanged, TargetNullValue='', FallbackValue='0'}"/>
 			
 				<TextBlock Grid.Row="1" Grid.Column="0"
 						   Text="Введите шаг:"
@@ -42,13 +42,13 @@
 				<TextBox Grid.Row="1" Grid.Column="1"
 				Watermark="Введите шаг" MinWidth="120"
 						 HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,15"
-						 Text="{Binding , UpdateSourceTrigger=PropertyChanged, TargetNullValue='', FallbackValue='0'}"/>
+						 Text="{Binding M, UpdateSourceTrigger=PropertyChanged, TargetNullValue='', FallbackValue='0'}"/>
 			</Grid>
-			<Button Content="Решить" Command="{Binding }"/>
+			<Button Content="Решить" Command="{Binding ButtonAction}"/>
 		</StackPanel>
 		<StackPanel Grid.Column="0" Grid.Row="2"  Margin="20">
 			<DataGrid  Name="MyDataGrid"
-					   ItemsSource="{Binding }"
+					   ItemsSource="{Binding TableSum}"
 					   AutoGenerateColumns="False"
 					   IsReadOnly="True"
 					   HorizontalAlignment="Left"
@@ -57,16 +57,17 @@
 					   BorderThickness="2"
 					   Height="400">
 				<DataGrid.Columns>
-					<DataGridTextColumn Header="№" Binding="{Binding }" Width="70"/>
-					<DataGridTextColumn Header="Значения X" Binding="{Binding }" Width="120"/>
-					<DataGridTextColumn Header="Значения Y" Binding="{Binding }" Width="120"/>
-					<DataGridTextColumn Header="Сумма" Binding="{Binding }" Width="*"/>
+					<DataGridTextColumn Header="№" Binding="{Binding Id}" Width="70"/>
+					<DataGridTextColumn Header="Значения X" Binding="{Binding X}" Width="120"/>
+					<DataGridTextColumn Header="Значения Y" Binding="{Binding Y}" Width="120"/>
+					<DataGridTextColumn Header="Четная" Binding="{Binding SumEven}" Width="*"/>
+					<DataGridTextColumn Header="Нечетная" Binding="{Binding SumOdd}" Width="*"/>
 				</DataGrid.Columns>
 			</DataGrid>
 		</StackPanel>
 		<Grid Grid.Column="1" Grid.RowSpan="3" Margin="20">
-			<lvc:CartesianChart Series="{Binding }" MaxHeight ="500"
-								 XAxes="{Binding }"/>
+			<lvc:CartesianChart Series="{Binding MySeries}" MaxHeight ="500"
+								 XAxes="{Binding XAxes}"/>
 		</Grid>
 	</Grid>
 </UserControl>

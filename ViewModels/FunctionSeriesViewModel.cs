@@ -68,7 +68,7 @@ namespace ProgramNumericalMet.ViewModels
                     Name = "f(x)",
                     GeometrySize = 0,
                     Fill = null,
-                    Stroke = new SolidColorPaint(SKColors.Green,2)
+                    Stroke = new SolidColorPaint(SKColors.Gray,2)
                 }
             };
         }
@@ -161,7 +161,7 @@ namespace ProgramNumericalMet.ViewModels
             {
                 // Защита от точек разрыва функции (ОДЗ: x^2 != 2), чтобы график не улетал в бесконечность
                 if (double.IsInfinity(item.Y) || double.IsNaN(item.Y) || Math.Abs((item.X * item.X) - 2) < 0.0001) continue;
-                dynamicPoints.Add(new ObservablePoint(item.X, item.Y));
+                dynamicPoints.Add(new ObservablePoint(item.X, item.Sum));
             }
             MySeries = new ISeries[]
             {
