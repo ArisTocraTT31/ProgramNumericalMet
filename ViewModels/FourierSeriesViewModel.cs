@@ -68,7 +68,6 @@ namespace ProgramNumericalMet.ViewModels
         public void ButtonAction()
         {
             List<Fourier> TempSum = new List<Fourier>();
-            double a0 = Math.Round((-2.0 / d) * Math.Log(Math.Abs(Math.Cos(d))), 3);
             double Step = Math.Round(d / M, 6);
             List<double> list_an = new List<double>();
             List<double> list_bn = new List<double>();
@@ -87,7 +86,7 @@ namespace ProgramNumericalMet.ViewModels
             int count = 0;
             for (double x = a; x <= d; x = Math.Round((x + Step), 6))
             {
-                //double fourier_even = Math.Round(a0/ 2.0, 6); 
+                if (M <= 0 || MaxN <= 0) return;
                 double fourier_even = list_an[0] / 2.0;
                 double fourier_odd = 0;
                 for (int i = 0; i < maxN; i++)

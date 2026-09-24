@@ -1,0 +1,112 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:vm="using:ProgramNumericalMet.ViewModels"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 x:Class="ProgramNumericalMet.Views.SolvingEquationsViews"
+			 x:DataType="vm:SolvingEquationsViewsModel">
+
+	<Grid ColumnDefinitions="*,*" RowDefinitions="150, *">
+		<StackPanel Grid.Column="0" Grid.Row="0" Margin="20">
+			<TextBlock Text="Метод половинного деления" FontWeight="Bold" FontSize="18" Margin="0 0 0 10"/>
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition Width="*"/>
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
+				</Grid.RowDefinitions>
+
+				<TextBlock Grid.Row="0" Grid.Column="0"
+						   Text="Введите a:"
+						   VerticalAlignment="Center"
+						   Margin="0,0,15,10"/>
+				<TextBox Grid.Row="0" Grid.Column="1"
+						 Watermark="Введите a"  MinWidth="120"
+						 HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,10"
+						 Text="{Binding a1, UpdateSourceTrigger=PropertyChanged, TargetNullValue='', FallbackValue='0'}"/>
+
+				<TextBlock Grid.Row="1" Grid.Column="0"
+						   Text="Введите b:"
+						   VerticalAlignment="Center"
+						   Margin="0,0,15,15"/>
+				<TextBox Grid.Row="1" Grid.Column="1"
+						 Watermark="Введите b" MinWidth="120"
+						 HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,15"
+						 Text="{Binding b1, UpdateSourceTrigger=PropertyChanged, TargetNullValue='', FallbackValue='0'}"/>
+			</Grid>
+			<Button Content="Решить" Command="{Binding }"/>
+		</StackPanel>
+		<StackPanel Grid.Column="0" Grid.Row="1"  Margin="20">
+			<DataGrid  Name="MyDataGrid"
+					   ItemsSource="{Binding }"
+					   AutoGenerateColumns="False"
+					   IsReadOnly="True"
+					   HorizontalAlignment="Left"
+					   GridLinesVisibility="All"
+					   BorderBrush="Green"
+					   BorderThickness="2"
+					   Height="450">
+				<DataGrid.Columns>
+					<DataGridTextColumn Header="№" Binding="{Binding }" Width="70"/>
+					<DataGridTextColumn Header="Значения X" Binding="{Binding }" Width="120"/>
+					<DataGridTextColumn Header="Значения Y" Binding="{Binding }" Width="120"/>
+					<DataGridTextColumn Header="Сумма" Binding="{Binding }" Width="*"/>
+				</DataGrid.Columns>
+			</DataGrid>
+		</StackPanel>
+		<StackPanel Grid.Column="1" Grid.Row="0" Margin="20">
+			<TextBlock Text="Метод Ньютона" FontWeight="Bold" FontSize="18" Margin="0 0 0 10"/>
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition Width="*"/>
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
+				</Grid.RowDefinitions>
+
+				<TextBlock Grid.Row="0" Grid.Column="0"
+						   Text="Введите a:"
+						   VerticalAlignment="Center"
+						   Margin="0,0,15,10"/>
+				<TextBox Grid.Row="0" Grid.Column="1"
+						 Watermark="Введите a"  MinWidth="120"
+						 HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,10"
+						 Text="{Binding a2, UpdateSourceTrigger=PropertyChanged, TargetNullValue='', FallbackValue='0'}"/>
+
+				<TextBlock Grid.Row="1" Grid.Column="0"
+						   Text="Введите b:"
+						   VerticalAlignment="Center"
+						   Margin="0,0,15,15"/>
+				<TextBox Grid.Row="1" Grid.Column="1"
+						 Watermark="Введите b" MinWidth="120"
+						 HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,15"
+						 Text="{Binding b2, UpdateSourceTrigger=PropertyChanged, TargetNullValue='', FallbackValue='0'}"/>
+			</Grid>
+			<Button Content="Решить" Command="{Binding }"/>
+		</StackPanel>
+		<StackPanel Grid.Column="1" Grid.Row="1"  Margin="20">
+			<DataGrid  Name="MyDataGrid2"
+					   ItemsSource="{Binding }"
+					   AutoGenerateColumns="False"
+					   IsReadOnly="True"
+					   HorizontalAlignment="Left"
+					   GridLinesVisibility="All"
+					   BorderBrush="Green"
+					   BorderThickness="2"
+					   Height="450">
+				<DataGrid.Columns>
+					<DataGridTextColumn Header="№" Binding="{Binding }" Width="70"/>
+					<DataGridTextColumn Header="Значения X" Binding="{Binding }" Width="120"/>
+					<DataGridTextColumn Header="Значения Y" Binding="{Binding }" Width="120"/>
+					<DataGridTextColumn Header="F(x)" Binding="{Binding }" Width="*"/>
+				</DataGrid.Columns>
+			</DataGrid>
+		</StackPanel>
+	</Grid>
+</UserControl>

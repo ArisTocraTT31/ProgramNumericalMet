@@ -33,5 +33,9 @@
   <ItemGroup>
     <UpToDateCheckInput Remove="Views\FourierSeriesView.axaml" />
   </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\SolvingEquationsViews.axaml" />
+  </ItemGroup>
 </Project>
 

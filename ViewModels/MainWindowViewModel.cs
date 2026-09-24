@@ -13,12 +13,14 @@ namespace ProgramNumericalMet.ViewModels
         MainScreenViewModel mainScreenViewModel;
         FunctionSeriesViewModel functionSeriesViewModel;
         FourierSeriesViewModel fourierSeriesView;
+        SolvingEquationsViewsModel solvingEquationsViewsModel;
 
         public UserControl UC { get => uc; set => this.RaiseAndSetIfChanged(ref uc, value); }
         public UserControl Page { get => page;set=>this.RaiseAndSetIfChanged(ref page, value); }
         public MainScreenViewModel MainScreenVM { get => mainScreenViewModel; set=>mainScreenViewModel = value; }
         public FunctionSeriesViewModel FunctionSeriesVM { get => functionSeriesViewModel; set => functionSeriesViewModel = value; }
         public FourierSeriesViewModel FourierSeriesVM { get => fourierSeriesView; set => fourierSeriesView = value; }
+        public SolvingEquationsViewsModel SolvingEquationsVM { get => solvingEquationsViewsModel; set => solvingEquationsViewsModel = value; }
 
 
         public static MainWindowViewModel Self;
@@ -27,7 +29,6 @@ namespace ProgramNumericalMet.ViewModels
             Self = this;
            
             MainScreenVM = new MainScreenViewModel();
-            FunctionSeriesVM = new FunctionSeriesViewModel();
         }
     }
 }

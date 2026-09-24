@@ -36,7 +36,12 @@ namespace ProgramNumericalMet.ViewModels
             switch (Id_Zadanie)
             {
                 case 1:
+                    MainWindowViewModel.Self.FunctionSeriesVM = new FunctionSeriesViewModel();
                     MainWindowViewModel.Self.Page = new FunctionSeriesView();
+                    break;
+                case 2:
+                    MainWindowViewModel.Self.SolvingEquationsVM = new SolvingEquationsViewsModel();
+                    MainWindowViewModel.Self.Page = new SolvingEquationsViews();
                     break;
                 default:
                     MainWindowViewModel.Self.Page = new MainScreen();
