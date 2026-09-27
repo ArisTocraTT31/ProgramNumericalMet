@@ -27,7 +27,6 @@ namespace ProgramNumericalMet.ViewModels
         public MainWindowViewModel()
         {
             Self = this;
-           
             MainScreenVM = new MainScreenViewModel();
         }
     }

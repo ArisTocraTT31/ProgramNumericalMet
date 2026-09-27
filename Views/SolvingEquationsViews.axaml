@@ -3,12 +3,17 @@
 			 xmlns:vm="using:ProgramNumericalMet.ViewModels"
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 x:CompileBindings="False"
 			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 			 x:Class="ProgramNumericalMet.Views.SolvingEquationsViews"
 			 x:DataType="vm:SolvingEquationsViewsModel">
 
-	<Grid ColumnDefinitions="*,*" RowDefinitions="150, *">
-		<StackPanel Grid.Column="0" Grid.Row="0" Margin="20">
+	<Grid ColumnDefinitions="*,*" RowDefinitions="50,150, *">
+		<StackPanel HorizontalAlignment="Center" Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal">
+			<RadioButton Name="n1" GroupName="MyPanels" Content="Метод половинного деления" Padding="10" IsChecked="true"/>
+			<RadioButton Name="n2" Content="Метод Ньютона" Padding="10" GroupName="MyPanels"/>
+		</StackPanel>
+		<StackPanel Grid.Column="0" Grid.Row="1" Margin="20" IsVisible="{Binding #n1.IsChecked}">
 			<TextBlock Text="Метод половинного деления" FontWeight="Bold" FontSize="18" Margin="0 0 0 10"/>
 			<Grid>
 				<Grid.ColumnDefinitions>
@@ -27,7 +32,8 @@
 				<TextBox Grid.Row="0" Grid.Column="1"
 						 Watermark="Введите a"  MinWidth="120"
 						 HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,10"
-						 Text="{Binding a1, UpdateSourceTrigger=PropertyChanged, TargetNullValue='', FallbackValue='0'}"/>
+						 Text="{Binding a1, UpdateSourceTrigger=PropertyChanged, TargetNullValue='', FallbackValue='0'}"
+						 />
 
 				<TextBlock Grid.Row="1" Grid.Column="0"
 						   Text="Введите b:"
@@ -38,11 +44,16 @@
 						 HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,15"
 						 Text="{Binding b1, UpdateSourceTrigger=PropertyChanged, TargetNullValue='', FallbackValue='0'}"/>
 			</Grid>
-			<Button Content="Решить" Command="{Binding }"/>
+			<Button Content="Решить" Command="{Binding ButtonAction_n1}"/>
 		</StackPanel>
-		<StackPanel Grid.Column="0" Grid.Row="1"  Margin="20">
+		<TextBlock Grid.Column="1" Grid.Row="1" IsVisible="{Binding #n1.IsChecked}"
+					Text="{Binding Itog_x1, StringFormat='Итоговое значение х: {0}'}"
+					FontSize="20"
+					FontWeight="Bold"
+					VerticalAlignment="Center"/>
+		<StackPanel Grid.ColumnSpan="2" Grid.Row="2"  Margin="20" IsVisible="{Binding #n1.IsChecked}" >
 			<DataGrid  Name="MyDataGrid"
-					   ItemsSource="{Binding }"
+					   ItemsSource="{Binding List_SolEquas_n1}"
 					   AutoGenerateColumns="False"
 					   IsReadOnly="True"
 					   HorizontalAlignment="Left"
@@ -51,14 +62,15 @@
 					   BorderThickness="2"
 					   Height="450">
 				<DataGrid.Columns>
-					<DataGridTextColumn Header="№" Binding="{Binding }" Width="70"/>
-					<DataGridTextColumn Header="Значения X" Binding="{Binding }" Width="120"/>
-					<DataGridTextColumn Header="Значения Y" Binding="{Binding }" Width="120"/>
-					<DataGridTextColumn Header="Сумма" Binding="{Binding }" Width="*"/>
+					<DataGridTextColumn Header="№" Binding="{Binding Id}" Width="70"/>
+					<DataGridTextColumn Header="An" Binding="{Binding A}" Width="*"/>
+					<DataGridTextColumn Header="Bn" Binding="{Binding B}" Width="*"/>
+					<DataGridTextColumn Header="Xn" Binding="{Binding X}" Width="*"/>
+					<DataGridTextColumn Header="F(x)" Binding="{Binding Func}" Width="*"/>
 				</DataGrid.Columns>
 			</DataGrid>
 		</StackPanel>
-		<StackPanel Grid.Column="1" Grid.Row="0" Margin="20">
+		<StackPanel Grid.Column="0" Grid.Row="1" Margin="20" IsVisible="{Binding #n2.IsChecked}">
 			<TextBlock Text="Метод Ньютона" FontWeight="Bold" FontSize="18" Margin="0 0 0 10"/>
 			<Grid>
 				<Grid.ColumnDefinitions>
@@ -88,11 +100,16 @@
 						 HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,15"
 						 Text="{Binding b2, UpdateSourceTrigger=PropertyChanged, TargetNullValue='', FallbackValue='0'}"/>
 			</Grid>
-			<Button Content="Решить" Command="{Binding }"/>
+			<Button Content="Решить" Command="{Binding ButtonAction_n2}"/>
 		</StackPanel>
-		<StackPanel Grid.Column="1" Grid.Row="1"  Margin="20">
+		<TextBlock Grid.Column="1" Grid.Row="1" IsVisible="{Binding #n2.IsChecked}"
+					Text="{Binding , StringFormat='Итоговое значение х: {0}'}"
+					FontSize="20"
+					FontWeight="Bold"
+					VerticalAlignment="Center"/>
+		<StackPanel Grid.ColumnSpan="2" Grid.Row="2"  Margin="20" IsVisible="{Binding #n2.IsChecked}">
 			<DataGrid  Name="MyDataGrid2"
-					   ItemsSource="{Binding }"
+					   ItemsSource="{Binding List_SolEquas_n2}"
 					   AutoGenerateColumns="False"
 					   IsReadOnly="True"
 					   HorizontalAlignment="Left"
@@ -101,9 +118,10 @@
 					   BorderThickness="2"
 					   Height="450">
 				<DataGrid.Columns>
-					<DataGridTextColumn Header="№" Binding="{Binding }" Width="70"/>
-					<DataGridTextColumn Header="Значения X" Binding="{Binding }" Width="120"/>
-					<DataGridTextColumn Header="Значения Y" Binding="{Binding }" Width="120"/>
+					<DataGridTextColumn Header="№" Binding="{Binding Id}" Width="70"/>
+					<DataGridTextColumn Header="X" Binding="{Binding X}" Width="*"/>
+					<DataGridTextColumn Header="F(x)" Binding="{Binding A}" Width="*"/>
+					<DataGridTextColumn Header="F'(x)" Binding="{Binding B}" Width="*"/>
 					<DataGridTextColumn Header="F(x)" Binding="{Binding }" Width="*"/>
 				</DataGrid.Columns>
 			</DataGrid>
