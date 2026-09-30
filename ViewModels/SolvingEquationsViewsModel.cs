@@ -15,6 +15,7 @@ namespace ProgramNumericalMet.ViewModels
         double _a2 = -3;
         double _b2 = 0;
         double itog_x1;
+        double itog_x2;
         List<SolEqua> list_SolEquas_n1;
         List<SolEqua> list_SolEquas_n2;
 
@@ -23,6 +24,7 @@ namespace ProgramNumericalMet.ViewModels
         public double a2 { get => _a2; set => this.RaiseAndSetIfChanged(ref _a2, value); }
         public double b2 { get => _b2; set => this.RaiseAndSetIfChanged(ref _b2, value); }
         public double Itog_x1 { get => itog_x1; set => this.RaiseAndSetIfChanged(ref itog_x1, value); }
+        public double Itog_x2 { get => itog_x1; set => this.RaiseAndSetIfChanged(ref itog_x1, value); }
         public List<SolEqua> List_SolEquas_n1 { get => list_SolEquas_n1; set => this.RaiseAndSetIfChanged(ref list_SolEquas_n1, value); }
         public List<SolEqua> List_SolEquas_n2 { get => list_SolEquas_n2; set => this.RaiseAndSetIfChanged(ref list_SolEquas_n2, value); }
 
@@ -41,6 +43,7 @@ namespace ProgramNumericalMet.ViewModels
             while ((temp_b - temp_a) > d)
             {
                 double x = (temp_a + temp_b) / 2;
+                Itog_x1 = x;
                 temp_list.Add(new SolEqua
                 {
                     Id = i + 1,
@@ -51,7 +54,6 @@ namespace ProgramNumericalMet.ViewModels
                 });
                 if (FunctionValue(temp_a) * FunctionValue(x) < 0) temp_b = x;
                 else temp_a = x;
-                Itog_x1 = x;
                 i++;
             }
             List_SolEquas_n1 = temp_list;
@@ -73,8 +75,7 @@ namespace ProgramNumericalMet.ViewModels
                 B = FunctionValue_1(temp_x)
             });
             int i = 1;
-            //Math.Abs(temp_list[i].X - temp_list[i - 1].X) > d
-            while (i<8)
+            while (true)
             {
                 double x = temp_list[i - 1].X - FunctionValue(temp_list[i - 1].X) / FunctionValue_1(temp_list[i - 1].X);
                 temp_list.Add(new SolEqua
@@ -84,6 +85,8 @@ namespace ProgramNumericalMet.ViewModels
                     A = FunctionValue(x),
                     B = FunctionValue_1(x)
                 });
+                Itog_x2 = x;
+                if (Math.Abs(temp_list[i].X - temp_list[i - 1].X) < d) break;
                 i++;
             }
             List_SolEquas_n2 = temp_list;

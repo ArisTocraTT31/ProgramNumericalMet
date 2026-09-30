@@ -103,7 +103,7 @@
 			<Button Content="Решить" Command="{Binding ButtonAction_n2}"/>
 		</StackPanel>
 		<TextBlock Grid.Column="1" Grid.Row="1" IsVisible="{Binding #n2.IsChecked}"
-					Text="{Binding , StringFormat='Итоговое значение х: {0}'}"
+					Text="{Binding Itog_x2, StringFormat='Итоговое значение х: {0}'}"
 					FontSize="20"
 					FontWeight="Bold"
 					VerticalAlignment="Center"/>
@@ -122,7 +122,6 @@
 					<DataGridTextColumn Header="X" Binding="{Binding X}" Width="*"/>
 					<DataGridTextColumn Header="F(x)" Binding="{Binding A}" Width="*"/>
 					<DataGridTextColumn Header="F'(x)" Binding="{Binding B}" Width="*"/>
-					<DataGridTextColumn Header="F(x)" Binding="{Binding }" Width="*"/>
 				</DataGrid.Columns>
 			</DataGrid>
 		</StackPanel>
