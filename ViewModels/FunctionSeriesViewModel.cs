@@ -36,13 +36,13 @@ namespace ProgramNumericalMet.ViewModels
         public List<FSValue> TableSum { get => tableSum; set => this.RaiseAndSetIfChanged(ref tableSum, value); }
 
 
-        public Axis[] XAxes { get; set; }
-        public ISeries[] mySeries;
+        public Axis[] XAxes { get; set; } //Макс/мин границы по х
+        public ISeries[] mySeries; //Для графика
         public ISeries[] MySeries { get => mySeries; set => this.RaiseAndSetIfChanged(ref mySeries, value); }
 
         public FunctionSeriesViewModel()
         {
-            MySeries = Array.Empty<ISeries>();
+            MySeries = Array.Empty<ISeries>(); //Создание статичного графика 
             staticPoints = new ObservableCollection<ObservablePoint>();
             double minX = a - b; //Минимальное значение на отрезке
             double maxX = a + b; //Максимальное значение на отрезке
@@ -54,7 +54,7 @@ namespace ProgramNumericalMet.ViewModels
                     MaxLimit = 1.4,
                 }
             };
-            for (double x = minX; x <= 10; x += 0.01)
+            for (double x = minX; x <= 10; x += 0.01) //Заполнение точек х,у
             {
                 if (Math.Abs((x * x) - 2) < 0.0001) continue;
                 double y = x / ((x * x) - 2);
@@ -171,14 +171,14 @@ namespace ProgramNumericalMet.ViewModels
                     Name = "Эталонная f(x)",
                     GeometrySize = 0,
                     Fill = null,
-                    Stroke = new SolidColorPaint(SKColors.Gray, 2) // Серая линия
+                    Stroke = new SolidColorPaint(SKColors.Gray, 2) 
                 },
                 new LineSeries<ObservablePoint>
                 {
                     Values = dynamicPoints,
                     Name = "Значение f(x)",
-                    GeometrySize = 0, // Убираем маркеры точек, оставляем гладкую линию
-                    Fill = null // Отключаем заливку под графиком 
+                    GeometrySize = 0,
+                    Fill = null 
                 }
             };
         }
