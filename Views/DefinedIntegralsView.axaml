@@ -1,0 +1,81 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:vm="using:ProgramNumericalMet.ViewModels"
+			 x:CompileBindings="False"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 x:Class="ProgramNumericalMet.Views.DefinedIntegralsView"
+			 x:DataType="vm:DefinedIntegralsViewModel">
+	<Grid ColumnDefinitions="*,*" RowDefinitions="*,*">
+		<StackPanel Grid.Column="0" Grid.Row="0" Margin="20" VerticalAlignment="Center">
+			<TextBlock Text="Метод трапеций" FontWeight="Bold" FontSize="24" Margin="0 0 0 20"/>
+			<TextBlock Text="Ввод данных" FontWeight="Bold" FontSize="18" Margin="0 0 0 10"/>
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition Width="*"/>
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
+				</Grid.RowDefinitions>
+
+				<TextBlock Grid.Row="0" Grid.Column="0"
+						   Text="Введите n:"
+						   VerticalAlignment="Center"
+						   Margin="0,0,15,10"/>
+				<TextBox Grid.Row="0" Grid.Column="1"
+						 Watermark="Введите n"  MinWidth="120"
+						 HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,10"
+						 Text="{Binding MaxN_n1, UpdateSourceTrigger=PropertyChanged, TargetNullValue='', FallbackValue='0'}"/>
+			</Grid>
+			<Button Content="Решить" Command="{Binding ButtonAction_n1}"/>
+		</StackPanel>
+		<StackPanel Grid.Column="1" Grid.Row="0"
+					VerticalAlignment="Center">
+			<TextBlock
+				Text="{Binding Itog_n1, StringFormat='Итоговое значение х: {0}'}"
+				FontSize="20"
+				FontWeight="Bold"/>
+			<TextBlock Text="{Binding Counter_n1, StringFormat='Достижение точности: {0}'}"
+				FontSize="20"
+				FontWeight="Bold"/>
+		</StackPanel>
+
+		<StackPanel Grid.Column="0" Grid.Row="1" Margin="20" VerticalAlignment="Center">
+			<TextBlock Text="Метод Симпсона" FontWeight="Bold" FontSize="24" Margin="0 0 0 20"/>
+			<TextBlock Text="Ввод данных" FontWeight="Bold" FontSize="18" Margin="0 0 0 10"/>
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition Width="*"/>
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
+				</Grid.RowDefinitions>
+
+				<TextBlock Grid.Row="0" Grid.Column="0"
+						   Text="Введите n:"
+						   VerticalAlignment="Center"
+						   Margin="0,0,15,10"/>
+				<TextBox Grid.Row="0" Grid.Column="1"
+						 Watermark="Введите n"  MinWidth="120"
+						 HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,10"
+						 Text="{Binding MaxN_n2, UpdateSourceTrigger=PropertyChanged, TargetNullValue='', FallbackValue='0'}"/>
+			</Grid>
+			<Button Content="Решить" Command="{Binding ButtonAction_n2}"/>
+		</StackPanel>
+		<StackPanel Grid.Column="1" Grid.Row="1"
+					VerticalAlignment="Center">
+			<TextBlock
+				Text="{Binding Itog_n2, StringFormat='Итоговое значение х: {0}'}"
+				FontSize="20"
+				FontWeight="Bold"/>
+			<TextBlock Text="{Binding Counter_n2, StringFormat='Достижение точности: {0}'}"
+				FontSize="20"
+				FontWeight="Bold"/>
+		</StackPanel>
+	</Grid>
+</UserControl>

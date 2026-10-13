@@ -14,6 +14,7 @@ namespace ProgramNumericalMet.ViewModels
         FunctionSeriesViewModel functionSeriesViewModel;
         FourierSeriesViewModel fourierSeriesView;
         SolvingEquationsViewsModel solvingEquationsViewsModel;
+        DefinedIntegralsViewModel definedIntegralsViewModel;
 
         public UserControl UC { get => uc; set => this.RaiseAndSetIfChanged(ref uc, value); }
         public UserControl Page { get => page;set=>this.RaiseAndSetIfChanged(ref page, value); }
@@ -21,6 +22,7 @@ namespace ProgramNumericalMet.ViewModels
         public FunctionSeriesViewModel FunctionSeriesVM { get => functionSeriesViewModel; set => functionSeriesViewModel = value; }
         public FourierSeriesViewModel FourierSeriesVM { get => fourierSeriesView; set => fourierSeriesView = value; }
         public SolvingEquationsViewsModel SolvingEquationsVM { get => solvingEquationsViewsModel; set => solvingEquationsViewsModel = value; }
+        public DefinedIntegralsViewModel DefinedIntegralsVM { get => definedIntegralsViewModel; set => definedIntegralsViewModel = value; }
 
 
         public static MainWindowViewModel Self;

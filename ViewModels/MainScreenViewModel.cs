@@ -43,6 +43,10 @@ namespace ProgramNumericalMet.ViewModels
                     MainWindowViewModel.Self.SolvingEquationsVM = new SolvingEquationsViewsModel();
                     MainWindowViewModel.Self.Page = new SolvingEquationsViews();
                     break;
+                case 3:
+                    MainWindowViewModel.Self.DefinedIntegralsVM = new DefinedIntegralsViewModel();
+                    MainWindowViewModel.Self.Page = new DefinedIntegralsView();
+                    break;
                 default:
                     MainWindowViewModel.Self.Page = new MainScreen();
                     break;

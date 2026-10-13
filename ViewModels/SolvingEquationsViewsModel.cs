@@ -12,8 +12,8 @@ namespace ProgramNumericalMet.ViewModels
     {
         double _a1; //Для М. половинного деления
         double _b1;
-        double _a2 = -3; //Для М. Ньютона
-        double _b2 = 0;
+        double _a2; //Для М. Ньютона
+        double _b2;
         double itog_x1;
         double itog_x2;
         List<SolEqua> list_SolEquas_n1; //Для М. половинного деления
