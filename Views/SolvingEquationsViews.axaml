@@ -67,6 +67,7 @@
 					<DataGridTextColumn Header="Bn" Binding="{Binding B}" Width="*"/>
 					<DataGridTextColumn Header="Xn" Binding="{Binding X}" Width="*"/>
 					<DataGridTextColumn Header="F(x)" Binding="{Binding Func}" Width="*"/>
+					<DataGridTextColumn Header="Δd" Binding="{Binding Delta}" Width="*"/>
 				</DataGrid.Columns>
 			</DataGrid>
 		</StackPanel>
@@ -122,6 +123,7 @@
 					<DataGridTextColumn Header="X" Binding="{Binding X}" Width="*"/>
 					<DataGridTextColumn Header="F(x)" Binding="{Binding A}" Width="*"/>
 					<DataGridTextColumn Header="F'(x)" Binding="{Binding B}" Width="*"/>
+					<DataGridTextColumn Header="F''(x)" Binding="{Binding Func}" Width="*"/>
 				</DataGrid.Columns>
 			</DataGrid>
 		</StackPanel>

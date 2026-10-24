@@ -47,6 +47,10 @@ namespace ProgramNumericalMet.ViewModels
                     MainWindowViewModel.Self.DefinedIntegralsVM = new DefinedIntegralsViewModel();
                     MainWindowViewModel.Self.Page = new DefinedIntegralsView();
                     break;
+                case 4:
+                    MainWindowViewModel.Self.InterpolationVM = new InterpolationViewModel();
+                    MainWindowViewModel.Self.Page = new InterpolationView();
+                    break;
                 default:
                     MainWindowViewModel.Self.Page = new MainScreen();
                     break;

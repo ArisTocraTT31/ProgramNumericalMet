@@ -50,7 +50,8 @@ namespace ProgramNumericalMet.ViewModels
                     A = temp_a,
                     B = temp_b,
                     X = x,
-                    Func = FunctionValue(x)
+                    Func = FunctionValue(x),
+                    Delta = (decimal)(temp_b - temp_a)
                 });
                 if (FunctionValue(temp_a) * FunctionValue(x) < 0) temp_b = x; //Здесь идет смещение отрезка в зависимости от условия (отрезок сужается)
                 else temp_a = x;
@@ -67,23 +68,27 @@ namespace ProgramNumericalMet.ViewModels
             if (FunctionValue(a2) * FunctionValue_2(a2) > 0) x0 = a2; //Выбираем начальное значение х0, если выполняется условие (в основном на границах отрезка)
             else if (FunctionValue(b2) * FunctionValue_2(b2) > 0) x0 = b2;
             double temp_x = x0 - FunctionValue(x0) / FunctionValue_1(x0); //Вычисление начального значения х1 и внесение его в лист
+            if (FunctionValue_1(x0) * FunctionValue_2(x0) < 0) return;
             temp_list.Add(new SolEqua
             {
                 Id = 1,
                 X = temp_x,
                 A = FunctionValue(temp_x),
-                B = FunctionValue_1(temp_x)
+                B = FunctionValue_1(temp_x),
+                Func = FunctionValue_2(temp_x)
             });
             int i = 1; //счетчик
             while (true) //Цикл вычисления значений
             {
                 double x = temp_list[i - 1].X - FunctionValue(temp_list[i - 1].X) / FunctionValue_1(temp_list[i - 1].X); //Каждый раз вычисляем новый х, используя предыдущий х по формуле
+                if (FunctionValue_1(x) * FunctionValue_2(x) < 0) return;
                 temp_list.Add(new SolEqua //Внесение данных в лист
                 {
                     Id = i + 1,
                     X = x,
                     A = FunctionValue(x),
-                    B = FunctionValue_1(x)
+                    B = FunctionValue_1(x),
+                    Func = FunctionValue_2(temp_x)
                 });
                 Itog_x2 = x; //Итоговое значение, которое будет отображаться отдельно
                 if (Math.Abs(temp_list[i].X - temp_list[i - 1].X) < d) break; //Условие для выхода из цикла

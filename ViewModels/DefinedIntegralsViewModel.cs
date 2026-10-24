@@ -43,7 +43,7 @@ namespace ProgramNumericalMet.ViewModels
             int n = MaxN_n1;
             while (true)
             {
-                delta = (1 / 15) * Math.Abs(ReturnItog1(2 * n) - ReturnItog1(n));
+                delta = (1 / 3) * Math.Abs(ReturnItog1(2 * n) - ReturnItog1(n));
                 if (delta < d) return;
                 else n = n * 2;
             }

@@ -13,5 +13,6 @@ namespace ProgramNumericalMet.Models
         public double B { get; set; }
         public double X { get; set; }
         public double Func { get; set; }
+        public decimal Delta { get; set; }
     }
 }

@@ -1,0 +1,54 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:vm="using:ProgramNumericalMet.ViewModels"
+			 x:CompileBindings="False"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 x:Class="ProgramNumericalMet.Views.InterpolationView"
+			 x:DataType="vm:InterpolationViewModel">
+	<Grid ColumnDefinitions="*,*" RowDefinitions="150, *">
+		<StackPanel Grid.Column="0" Grid.Row="0" Margin="20">
+			<TextBlock Text="Метод половинного деления" FontWeight="Bold" FontSize="18" Margin="0 0 0 10"/>
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition Width="*"/>
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
+				</Grid.RowDefinitions>
+
+				<TextBlock Grid.Row="0" Grid.Column="0"
+						   Text="Введите n:"
+						   VerticalAlignment="Center"
+						   Margin="0,0,15,10"/>
+				<TextBox Grid.Row="0" Grid.Column="1"
+						 Watermark="Введите a"  MinWidth="120"
+						 HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,10"
+						 Text="{Binding MaxN, UpdateSourceTrigger=PropertyChanged, TargetNullValue='', FallbackValue='0'}"
+						 />
+			</Grid>
+			<Button Content="Решить" Command="{Binding Second_Interpol}"/>
+		</StackPanel>
+		<StackPanel Grid.ColumnSpan="2" Grid.Row="1"  Margin="20">
+			<DataGrid  Name="MyDataGrid"
+					   ItemsSource="{Binding List_itog}"
+					   AutoGenerateColumns="False"
+					   IsReadOnly="True"
+					   HorizontalAlignment="Left"
+					   GridLinesVisibility="All"
+					   BorderBrush="Green"
+					   BorderThickness="2"
+					   Height="550">
+				<DataGrid.Columns>
+					<DataGridTextColumn Header="№" Binding="{Binding Id}" Width="70"/>
+					<DataGridTextColumn Header="xj" Binding="{Binding Xj}" Width="100"/>
+					<DataGridTextColumn Header="F(xj)" Binding="{Binding F}" Width="*"/>
+					<DataGridTextColumn Header="f(xj) - F(xj)" Binding="{Binding delta}" Width="*"/>
+				</DataGrid.Columns>
+			</DataGrid>
+		</StackPanel>
+	</Grid>
+</UserControl>
