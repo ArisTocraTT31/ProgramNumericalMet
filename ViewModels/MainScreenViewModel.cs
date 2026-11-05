@@ -51,6 +51,10 @@ namespace ProgramNumericalMet.ViewModels
                     MainWindowViewModel.Self.InterpolationVM = new InterpolationViewModel();
                     MainWindowViewModel.Self.Page = new InterpolationView();
                     break;
+                case 5:
+                    MainWindowViewModel.Self.ApproximationVM = new ApproximationViewModel();
+                    MainWindowViewModel.Self.Page = new ApproximationView();
+                    break;
                 default:
                     MainWindowViewModel.Self.Page = new MainScreen();
                     break;

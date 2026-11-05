@@ -16,6 +16,7 @@ namespace ProgramNumericalMet.ViewModels
         SolvingEquationsViewsModel solvingEquationsViewsModel;
         DefinedIntegralsViewModel definedIntegralsViewModel;
         InterpolationViewModel interpolationViewModel;
+        ApproximationViewModel approximationViewModel;
 
         public UserControl UC { get => uc; set => this.RaiseAndSetIfChanged(ref uc, value); }
         public UserControl Page { get => page;set=>this.RaiseAndSetIfChanged(ref page, value); }
@@ -25,9 +26,10 @@ namespace ProgramNumericalMet.ViewModels
         public SolvingEquationsViewsModel SolvingEquationsVM { get => solvingEquationsViewsModel; set => solvingEquationsViewsModel = value; }
         public DefinedIntegralsViewModel DefinedIntegralsVM { get => definedIntegralsViewModel; set => definedIntegralsViewModel = value; }
         public InterpolationViewModel InterpolationVM { get => interpolationViewModel; set => interpolationViewModel = value; }
+        public ApproximationViewModel ApproximationVM { get => approximationViewModel; set => approximationViewModel = value; }
 
 
-        public static MainWindowViewModel Self;
+    public static MainWindowViewModel Self;
         public MainWindowViewModel()
         {
             Self = this;

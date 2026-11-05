@@ -35,6 +35,7 @@ namespace ProgramNumericalMet.ViewModels
         }
         public void Second_Interpol() //Основной метод рассчета итоговой таблицы
         {
+            if (MaxN <= 0) return;
             AddElToList(); 
             Step = (b - a) / MaxN; //Рассчет шага
             List_yi = new List<List<double>>(); //Создание нового двухмерного листа листов
@@ -51,7 +52,7 @@ namespace ProgramNumericalMet.ViewModels
                     {
                         temp_list_j.Add(ReturnFunc(xi)); //Рассчет y(x)
                     }
-                    else //Для отслаьных столбцов
+                    else //Для отслальных столбцов
                     {
                         double delta_y = List_yi[i - 1][j + 1] - List_yi[i - 1][j];
                         temp_list_j.Add(delta_y);
