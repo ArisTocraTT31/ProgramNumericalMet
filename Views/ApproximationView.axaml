@@ -1,13 +1,14 @@
 <UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:vm="using:ProgramNumericalMet.ViewModels"
-             x:CompileBindings="False"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="ProgramNumericalMet.Views.ApproximationView"
-             x:DataType="vm:ApproximationViewModel">
-  <Grid ColumnDefinitions="*,*" RowDefinitions="50,150, *">
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:vm="using:ProgramNumericalMet.ViewModels"
+			 x:CompileBindings="False"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+		     xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Avalonia;assembly=LiveChartsCore.SkiaSharpView.Avalonia"
+			 x:Class="ProgramNumericalMet.Views.ApproximationView"
+			 x:DataType="vm:ApproximationViewModel">
+	<Grid ColumnDefinitions="*,*" RowDefinitions="50,150, *">
 		<StackPanel HorizontalAlignment="Center" Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal">
 			<RadioButton Name="n1" GroupName="MyPanels" Content="Аппроксимация" Padding="10" IsChecked="true"/>
 			<RadioButton Name="n2" Content="Дополнительные данные" Padding="10" GroupName="MyPanels"/>
@@ -53,71 +54,64 @@
 			</Grid>
 			<Button Content="Решить" Command="{Binding ButtonAction}"/>
 			<TextBlock IsVisible="{Binding #n1.IsChecked}"
-					Text="{Binding S, StringFormat='Итоговое значение S: {0}'}"
-					FontSize="16"
-					Margin="0 20 0 0"
-					FontWeight="Bold"/>
-		</StackPanel>
-		
-		
-		<StackPanel Grid.Column="0" Grid.Row="1" Margin="20" IsVisible="{Binding #n2.IsChecked}">
-			<TextBlock Text="Метод Ньютона" FontWeight="Bold" FontSize="18" Margin="0 0 0 10"/>
-		</StackPanel>
-	  <StackPanel Grid.Column="0" Grid.Row="1" Margin="20" IsVisible="{Binding #n2.IsChecked}">
-		   <DataGrid Name="MatrixDataGrid"
-			  ItemsSource="{Binding Matrix_A}"
-			  FontSize="10"
-			  IsReadOnly="True"
-			  GridLinesVisibility="All"
-			  BorderBrush="Green"
-			  BorderThickness="2"
-			  Height="220">
-			   <DataGrid.Styles>
-            <Style Selector="DataGridCell">
-                <Setter Property="FontSize" Value="10"/>
-            </Style>
-        </DataGrid.Styles>
-		  </DataGrid>
-	  </StackPanel>
-	 
-		<!--<StackPanel Grid.ColumnSpan="2" Grid.Row="2"  Margin="20" IsVisible="{Binding #n2.IsChecked}">
-			<DataGrid  Name="MyDataGrid2"
-					   ItemsSource="{Binding List_SolEquas_n2}"
-					   AutoGenerateColumns="False"
-					   IsReadOnly="True"
-					   HorizontalAlignment="Left"
-					   GridLinesVisibility="All"
-					   BorderBrush="Green"
-					   BorderThickness="2"
-					   Height="450">
-				<DataGrid.Columns>
-					<DataGridTextColumn Header="№" Binding="{Binding Id}" Width="70"/>
-					<DataGridTextColumn Header="X" Binding="{Binding X}" Width="*"/>
-					<DataGridTextColumn Header="F(x)" Binding="{Binding A}" Width="*"/>
-					<DataGridTextColumn Header="F'(x)" Binding="{Binding B}" Width="*"/>
-					<DataGridTextColumn Header="F''(x)" Binding="{Binding Func}" Width="*"/>
-				</DataGrid.Columns>
+					   Text="{Binding S, StringFormat='Итоговое значение S: {0}'}"
+					   FontSize="16"
+					   Margin="0 20 0 0"
+					   FontWeight="Bold"/>
+			<DataGrid Name="MatrixDataGrid"
+					  ItemsSource="{Binding Matrix_A}"
+					  FontSize="10"
+					  IsReadOnly="True"
+					  GridLinesVisibility="All"
+					  BorderBrush="Green"
+					  BorderThickness="2"
+					  Height="220">
+				<DataGrid.Styles>
+					<Style Selector="DataGridCell">
+						<Setter Property="FontSize" Value="10"/>
+					</Style>
+				</DataGrid.Styles>
 			</DataGrid>
 		</StackPanel>
-	  <StackPanel Grid.ColumnSpan="2" Grid.Row="2"  Margin="20" IsVisible="{Binding #n2.IsChecked}" >
-			<DataGrid  Name="MyDataGrid"
-					   ItemsSource="{Binding List_SolEquas_n1}"
-					   AutoGenerateColumns="False"
-					   IsReadOnly="True"
-					   HorizontalAlignment="Left"
-					   GridLinesVisibility="All"
-					   BorderBrush="Green"
-					   BorderThickness="2"
-					   Height="450">
-				<DataGrid.Columns>
-					<DataGridTextColumn Header="№" Binding="{Binding Id}" Width="70"/>
-					<DataGridTextColumn Header="An" Binding="{Binding A}" Width="*"/>
-					<DataGridTextColumn Header="Bn" Binding="{Binding B}" Width="*"/>
-					<DataGridTextColumn Header="Xn" Binding="{Binding X}" Width="*"/>
-					<DataGridTextColumn Header="F(x)" Binding="{Binding Func}" Width="*"/>
-					<DataGridTextColumn Header="Δd" Binding="{Binding Delta}" Width="*"/>
-				</DataGrid.Columns>
-			</DataGrid>
-		</StackPanel>-->
+		<Grid Grid.Column="1" Grid.RowSpan="3" Margin="20" IsVisible="{Binding #n1.IsChecked}">
+			<lvc:CartesianChart Series="{Binding MySeries}" MaxHeight ="500"
+								 XAxes="{Binding XAxes}"/>
+		</Grid>
+
+		<Grid Grid.Row="2" 
+          Grid.ColumnSpan="2" 
+          Margin="20" 
+          VerticalAlignment="Top" 
+          HorizontalAlignment="Stretch"
+          IsVisible="{Binding #n2.IsChecked}">
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="0" Orientation="Vertical" Margin="10,0">
+            <TextBlock Text="Лист X" FontWeight="Bold" FontSize="16" Margin="0,0,0,10" HorizontalAlignment="Center"/>
+            <DataGrid Name="GridX" AutoGenerateColumns="False" IsReadOnly="True" GridLinesVisibility="All" BorderBrush="Green" BorderThickness="2" Height="400" HorizontalAlignment="Stretch"/>
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Orientation="Vertical" Margin="10,0">
+            <TextBlock Text="Функция fi" FontWeight="Bold" FontSize="16" Margin="0,0,0,10" HorizontalAlignment="Center"/>
+            <DataGrid Name="GridFunc" AutoGenerateColumns="False" IsReadOnly="True" GridLinesVisibility="All" BorderBrush="Green" BorderThickness="2" Height="400" HorizontalAlignment="Stretch"/>
+        </StackPanel>
+
+        <StackPanel Grid.Column="2" Orientation="Vertical" Margin="10,0">
+            <TextBlock Text="Лист B" FontWeight="Bold" FontSize="16" Margin="0,0,0,10" HorizontalAlignment="Center"/>
+            <DataGrid Name="GridB" AutoGenerateColumns="False" IsReadOnly="True" GridLinesVisibility="All" BorderBrush="Green" BorderThickness="2" Height="400" HorizontalAlignment="Stretch"/>
+        </StackPanel>
+
+        <StackPanel Grid.Column="3" Orientation="Vertical" Margin="10,0">
+            <TextBlock Text="Лист C" FontWeight="Bold" FontSize="16" Margin="0,0,0,10" HorizontalAlignment="Center"/>
+            <DataGrid Name="GridC" AutoGenerateColumns="False" IsReadOnly="True" GridLinesVisibility="All" BorderBrush="Green" BorderThickness="2" Height="400" HorizontalAlignment="Stretch"/>
+        </StackPanel>
+
+    </Grid>
 	</Grid>
 </UserControl>

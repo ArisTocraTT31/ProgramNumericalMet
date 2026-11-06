@@ -7,6 +7,12 @@ using Avalonia.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore;
+using LiveChartsCore.Defaults;
+using LiveChartsCore.SkiaSharpView.Painting;
+using SkiaSharp;
+using System.Collections.ObjectModel;
 
 namespace ProgramNumericalMet.ViewModels
 {
@@ -43,10 +49,22 @@ namespace ProgramNumericalMet.ViewModels
         public List<List<double>> Matrix_A { get => matrix_A; set => this.RaiseAndSetIfChanged(ref matrix_A, value); }
 
 
+        public Axis[] XAxes { get; set; } //Макс/мин границы по х
+        public ISeries[] mySeries; //Для графика
+        public ISeries[] MySeries { get => mySeries; set => this.RaiseAndSetIfChanged(ref mySeries, value); }
+
+
 
         public ApproximationViewModel()
         {
-
+            XAxes = new Axis[]
+            {
+                new Axis
+                {
+                    MinLimit = -5,
+                    MaxLimit = 5,
+                }
+            };
         }
         public void ButtonAction()
         {
@@ -120,8 +138,57 @@ namespace ProgramNumericalMet.ViewModels
             }
             S = sumS;
             this.RaisePropertyChanged(nameof(Matrix_A));
-        }
+            this.RaisePropertyChanged(nameof(Array_X));
+            this.RaisePropertyChanged(nameof(List_func));
+            this.RaisePropertyChanged(nameof(Array_B));
+            this.RaisePropertyChanged(nameof(Array_C));
 
+            var dynamicPoints_yx = new ObservableCollection<ObservablePoint>(); //график Y(x)
+            var dynamicPoints_fx = new ObservableCollection<ObservablePoint>(); //график f(x)
+
+            if (dynamicPoints_yx == null) dynamicPoints_yx = new ObservableCollection<ObservablePoint>();
+            else dynamicPoints_yx.Clear();
+
+            if (dynamicPoints_fx == null) dynamicPoints_fx = new ObservableCollection<ObservablePoint>();
+            else dynamicPoints_fx.Clear();
+
+            var staticPoints_xf = new ObservableCollection<ObservablePoint>();
+
+            for (int i = 0; i <= MaxM; i++)
+            {
+                dynamicPoints_yx.Add(new ObservablePoint(Array_X[i], list_Y[i]));
+                dynamicPoints_fx.Add(new ObservablePoint(Array_X[i], ReturnFunc(Array_X[i])));
+                staticPoints_xf.Add(new ObservablePoint(Array_X[i], List_func[i]));
+            }
+            MySeries = new ISeries[]
+            {
+                new LineSeries<ObservablePoint>
+                {
+                    Values = dynamicPoints_yx,
+                    Name = "Y(x)",
+                    GeometrySize = 0,
+                    Fill = null,
+                    Stroke = new SolidColorPaint(SKColors.Green, 2)
+                },
+                new LineSeries<ObservablePoint>
+                {
+                    Values = dynamicPoints_fx,
+                    Name = "f(x)",
+                    GeometrySize = 0,
+                    Fill = null,
+                    Stroke = new SolidColorPaint(SKColors.Purple, 2)
+                },
+                new LineSeries<ObservablePoint>
+                {
+                    Values = staticPoints_xf,
+                    Name = "Точки (xi, fi)",
+                    GeometrySize = 10, 
+                    Fill = null,
+                    GeometryFill = new SolidColorPaint(SKColors.Blue),
+                    Stroke = null
+                }
+            };
+        }
         public double ReturnY(double x)
         {
             double sum = 0;
